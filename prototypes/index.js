@@ -175,7 +175,12 @@ const cakePrompts = {
     //    ..etc
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cakes.map(cake => {
+      return {
+        'flavor': cake.cakeFlavor,
+        'inStock': cake.inStock
+      };
+    });
     return result;
 
     // Annotation:
@@ -203,7 +208,7 @@ const cakePrompts = {
     // ..etc
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cakes.filter(stock => stock.inStock > 0);
     return result;
 
     // Annotation:
@@ -342,7 +347,7 @@ const bookPrompts = {
 
     let bookResult = books.filter(book => {
       return book.genre !== 'Horror' && book.genre !== 'True Crime';
-    })
+    });
     
     let result = bookResult.map(book => book.title);
     
