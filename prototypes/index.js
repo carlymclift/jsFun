@@ -24,14 +24,11 @@ const { dinosaurs, humans, movies } = require('./datasets/dinosaurs');
 // DATASET: kitties from ./datasets/kitties
 const kittyPrompts = {
   orangeKittyNames() {
-
     // Return an array of just the names of kitties who are orange e.g.
     // ['Tiger', 'Snickers']
     const result = kitties.filter(cat => cat.color === 'orange')
       .map(cat => cat.name);
     return result;
-
-    // Annotation:
     /*
     Wrote filter to get all objects that have a color of orange
     Then got back full onjects
@@ -41,46 +38,36 @@ const kittyPrompts = {
 
   sortByAge() {
     // Sort the kitties by their age
-
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = kitties.sort((a, b) => b.age - a.age);
     return result;
-
-    // Annotation:
-    // Write your annotation here as a comment
+    /*
+    Use sort to go over each age
+    reverse the sort to get a decending order of object by age
+    */
   },
 
   growUp() {
     // Return an array of kitties who have all grown up by 2 years e.g.
-    // [{
-    //   name: 'Felicia',
-    //   age: 4,
-    //   color: 'grey'
-    // },
-    // {
-    //   name: 'Tiger',
-    //   age: 7,
-    //   color: 'orange'
-    // },
-    // ...etc]
-
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    let growCat = kitties.map(cat => {
+      cat.age = cat.age += 2;
+      return cat;
+    });
+    const result = growCat.sort((a, b) => b.age - a.age);
     return result;
+    /*
+    map over array to return a new array with each age being 
+    two years older
+    Use sort to reverse the order of the array to be backwards
+    */
   }
 };
 
 
-
-
-
-
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
-
-
-
 
 
 
@@ -95,11 +82,26 @@ const clubPrompts = {
     //   ...etc
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    let people = clubs.reduce((peoplesClubs, club) => {
+      club.members.forEach(member => {
+        if(!peoplesClubs[member]) {
+          peoplesClubs[member] = [];
+        }
+        if(club.members.includes(member)) {
+          peoplesClubs[member].push(club.club);
+        }
+      });
+      return peoplesClubs;
+    }, {});
+
+    const result = people;
     return result;
 
-    // Annotation:
-    // Write your annotation here as a comment
+    /*
+    I want to use reduce to return back objects with key-value pairs
+    I want to iterate over each current object and get the names of each member
+    return member 
+    */
   }
 };
 
@@ -131,7 +133,14 @@ const modPrompts = {
     //   { mod: 4, studentsPerInstructor: 8 }
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = mods.reduce((acc, mod) => {
+      const newObj = {
+        'mod': mod.mod,
+        'studentsPerInstructor': mod.students / mod.instructors
+      };
+      acc.push(newObj);
+      return acc;
+    }, []);
     return result;
 
     // Annotation:
@@ -285,17 +294,26 @@ const classPrompts = {
     //   beCapacity: 96
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = classrooms.reduce((acc, classroom) => {
+      if (classroom.program === 'FE') {
+        acc.feCapacity += classroom.capacity;
+      } else {
+        acc.beCapacity += classroom.capacity;
+      }
+
+      return acc;
+    }, {feCapacity: 0, beCapacity: 0});
     return result;
 
-    // Annotation:
-    // Write your annotation here as a comment
+    /*
+
+    */
   },
 
   sortByCapacity() {
     // Return the array of classrooms sorted by their capacity (least capacity to greatest)
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = classrooms.sort((a, b) => a.capacity - b.capacity);
     return result;
 
     // Annotation:
@@ -322,7 +340,12 @@ const bookPrompts = {
     //   'Catch-22', 'Treasure Island']
 
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    let bookResult = books.filter(book => {
+      return book.genre !== 'Horror' && book.genre !== 'True Crime';
+    })
+    
+    let result = bookResult.map(book => book.title);
+    
     return result;
 
     // Annotation:
@@ -476,7 +499,7 @@ const nationalParksPrompts = {
 
 
 
-
+ 
 
 // DATASET: breweries from ./datasets/breweries
 const breweryPrompts = {
