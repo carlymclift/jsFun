@@ -453,8 +453,10 @@ const weatherPrompts = {
     const sortedCitites = weather.sort((a, b) => b.humidity - a.humidity);
     return sortedCitites[0];
 
-    // Annotation:
-    // Write your annotation here as a comment
+    /*
+    sort the cities by their humidity from highest to lowest
+    return the first index
+    */
 
   }
 };
@@ -477,7 +479,18 @@ const nationalParksPrompts = {
     //   parksVisited: ["Rocky Mountain", "Acadia", "Zion"]
     //}
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = nationalParks.reduce((acc, park) => {
+      if(park.visited === false) {
+        acc.parksToVisit.push(park.name);
+      } else {
+        acc.parksVisited.push(park.name);
+      }
+      return acc;
+    }, {
+      parksToVisit: [],
+      parksVisited: []
+    });
+
     return result;
 
     // Annotation:
