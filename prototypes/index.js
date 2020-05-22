@@ -385,8 +385,14 @@ const bookPrompts = {
     // [{ title: 'Harry Potter and the Sorcerer\'s Stone', year: 1997 },
     //  { title: 'Life of Pi', year: 2001 },
     //  { title: 'The Curious Incident of the Dog in the Night-Time', year: 2003 }]
-
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const filteredBooks = books.filter(book => book.published > 1989);
+    const result = [];
+    filteredBooks.forEach(book => {
+      let bookObj = {};
+      bookObj.title = book.title;
+      bookObj.year = book.published;
+      result.push(bookObj);
+    });
     return result;
 
     // Annotation:
@@ -409,7 +415,7 @@ const weatherPrompts = {
     // return an array of all the average temperatures. Eg:
     // [ 40, 40, 44.5, 43.5, 57, 35, 65.5, 62, 14, 46.5 ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = weather.map(city => (city.temperature.high + city.temperature.low) / 2);
     return result;
 
     // Annotation:
@@ -423,11 +429,16 @@ const weatherPrompts = {
     // 'New Orleans, Louisiana is sunny.',
     // 'Raleigh, North Carolina is mostly sunny.' ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    let sunny = weather.filter(city => (city.type === 'sunny'|| city.type === 'mostly sunny'));
+    const result = sunny.map(num => (`${num.location} is ${num.type}.`));
     return result;
 
-    // Annotation:
-    // Write your annotation here as a comment
+    /*
+    I want to filter over the array and find all cities that are
+    sunny or mostly sunny
+    Then I want to map that new array and return interpilated sentance
+    for each 
+    */
   },
 
   findHighestHumidity() {
@@ -439,8 +450,8 @@ const weatherPrompts = {
     //   temperature: { high: 49, low: 38 }
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
-    return result;
+    const sortedCitites = weather.sort((a, b) => b.humidity - a.humidity);
+    return sortedCitites[0];
 
     // Annotation:
     // Write your annotation here as a comment
