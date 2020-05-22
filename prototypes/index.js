@@ -497,23 +497,6 @@ const nationalParksPrompts = {
     // Write your annotation here as a comment
   },
 
-  getParkInEachState() {
-    // Return an array of objects where the key is the state and the value is its National Park
-    // eg: [ { Colorado: 'Rocky Mountain' },
-    // { Wyoming: 'Yellowstone' },
-    // { Montana: 'Glacier' },
-    // { Maine: 'Acadia' },
-    // { Utah: 'Zion' },
-    // { Florida: 'Everglades' } ]
-
-
-    const result = 'REPLACE WITH YOUR RESULT HERE';
-    return result;
-
-    // Annotation:
-    // Write your annotation here as a comment
-  },
-
   getParkActivities() {
     // Return an array of all the activities I can do
     // in a National Park. Make sure to exclude duplicates. eg:
@@ -529,9 +512,39 @@ const nationalParksPrompts = {
     //   'canyoneering',
     //   'backpacking',
     //   'rock climbing' ]
+    let activities = [];
+    let allActivities = nationalParks.map(park => (park.activities));
+    allActivities.forEach(array => {
+      array.forEach(thing => {
+        if(!activities.includes(thing)) {
+          activities.push(thing);
+        }
+      });
+    });
+    return activities;
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
-    return result;
+    // Annotation:
+    // Write your annotation here as a comment
+  },
+
+  getParkInEachState() {
+    // Return an array of objects where the key is the state and the value is its National Park
+    // eg: [ { Colorado: 'Rocky Mountain' },
+    // { Wyoming: 'Yellowstone' },
+    // { Montana: 'Glacier' },
+    // { Maine: 'Acadia' },
+    // { Utah: 'Zion' },
+    // { Florida: 'Everglades' } ]
+
+
+    let array = [];
+    nationalParks.forEach(park => {
+      let parkObj = {};
+      parkObj[park.location] = park.name;
+      array.push(parkObj);
+    });
+
+    return array;
 
     // Annotation:
     // Write your annotation here as a comment
