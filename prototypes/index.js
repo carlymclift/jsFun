@@ -84,10 +84,10 @@ const clubPrompts = {
 
     let people = clubs.reduce((peoplesClubs, club) => {
       club.members.forEach(member => {
-        if(!peoplesClubs[member]) {
+        if (!peoplesClubs[member]) {
           peoplesClubs[member] = [];
         }
-        if(club.members.includes(member)) {
+        if (club.members.includes(member)) {
           peoplesClubs[member].push(club.club);
         }
       });
@@ -134,13 +134,14 @@ const modPrompts = {
     // ]
 
     const result = mods.reduce((acc, mod) => {
-      const newObj = {
+      let newObj = {
         'mod': mod.mod,
         'studentsPerInstructor': mod.students / mod.instructors
       };
       acc.push(newObj);
       return acc;
     }, []);
+
     return result;
 
     // Annotation:
@@ -181,6 +182,7 @@ const cakePrompts = {
         'inStock': cake.inStock
       };
     });
+
     return result;
 
     // Annotation:
@@ -235,14 +237,16 @@ const cakePrompts = {
     // every cake in the dataset e.g.
     // ['dutch process cocoa', 'toasted sugar', 'smoked sea salt', 'berries', ..etc]
 
+
     const result = cakes.reduce((acc, cake) => {
       cake.toppings.forEach(topping => {
-        if(!acc.includes(topping)) {
+        if (!acc.includes(topping)) {
           acc.push(topping);
         }
       });
       return acc;
     }, []);
+
     return result;
 
     // Annotation:
@@ -328,7 +332,7 @@ const classPrompts = {
       }
 
       return acc;
-    }, {feCapacity: 0, beCapacity: 0});
+    }, { feCapacity: 0, beCapacity: 0 });
     return result;
 
     /*
@@ -369,9 +373,9 @@ const bookPrompts = {
     let bookResult = books.filter(book => {
       return book.genre !== 'Horror' && book.genre !== 'True Crime';
     });
-    
+
     let result = bookResult.map(book => book.title);
-    
+
     return result;
 
     // Annotation:
@@ -385,14 +389,16 @@ const bookPrompts = {
     // [{ title: 'Harry Potter and the Sorcerer\'s Stone', year: 1997 },
     //  { title: 'Life of Pi', year: 2001 },
     //  { title: 'The Curious Incident of the Dog in the Night-Time', year: 2003 }]
-    const filteredBooks = books.filter(book => book.published > 1989);
-    const result = [];
-    filteredBooks.forEach(book => {
-      let bookObj = {};
-      bookObj.title = book.title;
-      bookObj.year = book.published;
-      result.push(bookObj);
-    });
+
+    const bookList = books.filter(book => book.published > 1989);
+    const result = bookList.reduce((acc, book) => {
+      let list = {
+        'title': book.title,
+        'year': book.published
+      };
+      acc.push(list);
+      return acc;
+    }, []);
     return result;
 
     // Annotation:
@@ -429,8 +435,8 @@ const weatherPrompts = {
     // 'New Orleans, Louisiana is sunny.',
     // 'Raleigh, North Carolina is mostly sunny.' ]
 
-    let sunny = weather.filter(city => (city.type === 'sunny'|| city.type === 'mostly sunny'));
-    const result = sunny.map(num => (`${num.location} is ${num.type}.`));
+    let sunny = weather.filter(city => (city.type === 'sunny' || city.type === 'mostly sunny'));
+    const result = sunny.map(city => (`${city.location} is ${city.type}.`));
     return result;
 
     /*
@@ -480,7 +486,7 @@ const nationalParksPrompts = {
     //}
 
     const result = nationalParks.reduce((acc, park) => {
-      if(park.visited === false) {
+      if (park.visited === false) {
         acc.parksToVisit.push(park.name);
       } else {
         acc.parksVisited.push(park.name);
@@ -516,7 +522,7 @@ const nationalParksPrompts = {
     let allActivities = nationalParks.map(park => (park.activities));
     allActivities.forEach(array => {
       array.forEach(thing => {
-        if(!activities.includes(thing)) {
+        if (!activities.includes(thing)) {
           activities.push(thing);
         }
       });
@@ -562,7 +568,7 @@ const nationalParksPrompts = {
 
 
 
- 
+
 
 // DATASET: breweries from ./datasets/breweries
 const breweryPrompts = {
@@ -570,11 +576,20 @@ const breweryPrompts = {
     // Return the total beer count of all beers for every brewery e.g.
     // 40
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = breweries.reduce((beerCount, brewery) => {
+      brewery.beers.forEach(beer => {
+        beerCount++;
+      });
+      return beerCount;
+    }, 0);
     return result;
 
-    // Annotation:
-    // Write your annotation here as a comment
+    /*
+    for every object access the beer key
+    get count by getting the length of each array
+    add that to the counter
+    */
+
   },
 
   getBreweryBeerCount() {
@@ -586,7 +601,15 @@ const breweryPrompts = {
     // ...etc.
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = breweries.reduce((acc, brewery) => {
+      let counter = {
+        'name': brewery.name,
+        'beerCount': brewery.beers.length
+      };
+      // console.log(counter)
+      acc.push(counter);
+      return acc;
+    }, []);
     return result;
 
     // Annotation:
@@ -598,11 +621,22 @@ const breweryPrompts = {
     // e.g.
     // { name: 'Barrel Aged Nature\'s Sweater', type: 'Barley Wine', abv: 10.9, ibu: 40 }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = breweries.reduce((acc, brewery) => {
+      brewery.beers.forEach(beer => {
+        acc.push(beer);
+      });
+      return acc;
+    }, []).sort((a, b) => b.abv - a.abv)[0];
     return result;
 
-    // Annotation:
-    // Write your annotation here as a comment
+    /*
+    result: object of beer with highest abv
+
+    for every brewery find beer key
+    create array with all beers
+    sort those beers from highest to lowest
+    access the first beer of array
+    */
   }
 };
 
@@ -646,7 +680,17 @@ const turingPrompts = {
     //  { name: 'Robbie', studentCount: 18 }
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = instructors.reduce((acc, instructor) => {
+      cohorts.forEach(cohort => {
+        if (cohort.module === instructor.module) {
+          acc.push({
+            'name': instructor.name,
+            'studentCount': cohort.studentCount
+          });
+        }
+      });
+      return acc;
+    }, []);
     return result;
 
     // Annotation:
@@ -660,7 +704,18 @@ const turingPrompts = {
     // cohort1804: 10.5
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    cohorts.forEach(cohort => {
+      instructors.forEach(instructor => {
+        if (cohort.module === instructor.module) {
+          cohort.instructors = cohort.instructors || [];
+          cohort.instructors.push(instructor.name);
+        }
+      });
+    });
+    let result = cohorts.reduce((acc, cohort) => {
+      acc['cohort' + cohort.cohort] = cohort.studentCount / cohort.instructors.length;
+      return acc;
+    }, {});
     return result;
 
     // Annotation:
@@ -682,7 +737,19 @@ const turingPrompts = {
     //     Will: [1, 2, 3, 4]
     //   }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = instructors.reduce((acc, instructor) => {
+      acc[instructor.name] = [];
+      cohorts.forEach(cohort => {
+        cohort.curriculum.forEach(topic => {
+          if(instructor.teaches.includes(topic) && !acc[instructor.name].includes(cohort.module)) {
+            acc[instructor.name].push(cohort.module);
+          }
+        });
+      });
+      return acc;
+    }, {});
+
+
     return result;
 
     // Annotation:
@@ -699,7 +766,15 @@ const turingPrompts = {
     //   recursion: [ 'Pam', 'Leta' ]
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = instructors.reduce((acc, instructor) => {
+      instructor.teaches.forEach(topic => {
+        if(instructor.teaches.includes(topic)) {
+          acc[topic] = acc[topic] || [];
+          acc[topic].push(instructor.name);
+        }
+      });
+      return acc;
+    }, {});
     return result;
 
     // Annotation:
