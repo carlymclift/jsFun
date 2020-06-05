@@ -808,8 +808,21 @@ const bossPrompts = {
     //   { bossName: 'Ursula', sidekickLoyalty: 20 },
     //   { bossName: 'Scar', sidekickLoyalty: 16 }
     // ]
+    let bossLoyalty = sidekicks.reduce((acc, sidekick) => {
+      acc[sidekick.boss] += sidekick.loyaltyToBoss;
+      return acc;
+    }, {'Scar': 0,
+      'Ursula': 0,
+      'Jafar': 0});
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    let keys = Object.keys(bossLoyalty);
+
+    let result = keys.map(key => {
+      return {
+        bossName: key,
+        sidekickLoyalty: bossLoyalty[key]
+      };
+    });
     return result;
 
     // Annotation:
@@ -851,7 +864,14 @@ const astronomyPrompts = {
     //     color: 'red' }
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const constellKeys = Object.keys(constellations);
+
+    const result = stars.reduce((accu, star) => { constellKeys.forEach(constellName => {
+      if (constellations[constellName].stars.includes(star.name)) { 
+        accu.push(star);}
+    });
+    return accu;
+    }, []);
     return result;
 
     // Annotation:
@@ -891,8 +911,13 @@ const astronomyPrompts = {
     //    "The Little Dipper" ]
 
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
-    return result;
+    const result = stars.filter(star => star.constellation.length > 1);
+
+    const resultSort = result.sort((a, b) => 
+      a.visualMagnitude - b.visualMagnitude)
+      .map(star => star.constellation);
+
+    return resultSort;
 
     // Annotation:
     // Write your annotation here as a comment

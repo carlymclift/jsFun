@@ -356,7 +356,7 @@ describe("PROTOTYPES", () => {
       })
     })
   }), describe("Turing Prompts", () => {
-    it.only("studentsForEachInstructor", () => {
+    it("studentsForEachInstructor", () => {
       const e = turingPrompts.studentsForEachInstructor();
       expect(e).to.deep.equal([{
         name: "Pam",
@@ -386,7 +386,7 @@ describe("PROTOTYPES", () => {
         name: "Will",
         studentCount: 20
       }])
-    }), it.only("studentsPerInstructor", () => {
+    }), it("studentsPerInstructor", () => {
       const e = turingPrompts.studentsPerInstructor();
       expect(e).to.deep.equal({
         cohort1806: 15,
@@ -394,7 +394,7 @@ describe("PROTOTYPES", () => {
         cohort1803: 10,
         cohort1801: 9
       })
-    }), it.only("modulesPerTeacher", () => {
+    }), it("modulesPerTeacher", () => {
       const e = turingPrompts.modulesPerTeacher();
       expect(e).to.deep.equal({
         Pam: [2, 4],
@@ -407,7 +407,7 @@ describe("PROTOTYPES", () => {
         Christie: [1, 2, 3, 4],
         Will: [1, 2, 3, 4]
       })
-    }), it.only("curriculumPerTeacher", () => {
+    }), it("curriculumPerTeacher", () => {
       const e = turingPrompts.curriculumPerTeacher();
       expect(e).to.deep.equal({
         html: ["Travis", "Louisa"],
@@ -527,7 +527,7 @@ describe("PROTOTYPES", () => {
           color: "red"
         }]
       })
-    }), it("constellationsStarsExistIn", () => {
+    }), it.only("constellationsStarsExistIn", () => {
       const e = astronomyPrompts.constellationsStarsExistIn();
       expect(e).to.deep.equal(["Canis Major", "Carina", "Boötes", "Auriga", "Orion", "Lyra", "Canis Minor", "The Plow", "Orion", "The Little Dipper"])
     })
